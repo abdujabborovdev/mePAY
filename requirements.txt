@@ -6,3 +6,6 @@ sqlalchemy[asyncio]>=2.0
 aiosqlite>=0.20
 python-dotenv>=1.0
 python-multipart>=0.0.9
+gunicorn
+asgiref
+sqlparse
