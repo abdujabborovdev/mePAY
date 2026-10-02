@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Balansni to'ldirish</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background:#f4f6fa; margin:0; padding:24px; }
+    .card { max-width:420px; margin:0 auto; background:#fff; border-radius:16px; padding:24px; box-shadow:0 4px 20px rgba(0,0,0,.06); }
+    h1 { margin:0 0 4px; font-size:22px; }
+    .balance { color:#555; margin-bottom:20px; }
+    .balance b { color:#0a7d33; font-size:20px; }
+    input[type=text] { width:100%; box-sizing:border-box; padding:12px; font-size:18px; border:1px solid #ccd; border-radius:10px; }
+    .quick { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+    .quick button { flex:1 1 30%; padding:10px; border:1px solid #ccd; background:#f8f9ff; border-radius:10px; cursor:pointer; }
+    .pay { width:100%; padding:14px; background:#00b5ef; color:#fff; border:0; border-radius:10px; font-size:17px; cursor:pointer; }
+    .error { color:#c00; margin-bottom:10px; }
+    table { width:100%; margin-top:24px; border-collapse:collapse; font-size:14px; }
+    td { padding:6px 0; border-bottom:1px solid #eee; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h1>💳 Balansni to'ldirish</h1>
+  <div class="balance">Balansingiz: <b>{{ balance }}</b> so'm</div>
+
+  {% if error %}<div class="error">{{ error }}</div>{% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <input type="text" name="amount" id="amount" placeholder="Summa (so'm)" inputmode="numeric" required>
+    <div class="quick">
+      <button type="button" onclick="setA(5000)">5 000</button>
+      <button type="button" onclick="setA(10000)">10 000</button>
+      <button type="button" onclick="setA(25000)">25 000</button>
+      <button type="button" onclick="setA(50000)">50 000</button>
+      <button type="button" onclick="setA(100000)">100 000</button>
+      <button type="button" onclick="setA(250000)">250 000</button>
+    </div>
+    <button class="pay" type="submit">Click orqali to'lash</button>
+  </form>
+
+  {% if orders %}
+  <table>
+    {% for o in orders %}
+    <tr><td>#{{ o.id }}</td><td>{{ o.amount }} so'm</td><td>{{ o.get_status_display }}</td><td>{{ o.created_at|date:"d.m H:i" }}</td></tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+</div>
+<script>function setA(v){document.getElementById('amount').value=v;}</script>
+</body>
+</html>
